@@ -1,0 +1,154 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    color: #333;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  /* Header */
+  header {
+    background-color: teal;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  header .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  header h1 {
+    font-size: 20px;
+    margin: 0;
+  }
+  
+  header .save-button {
+    background-color: white;
+    color: teal;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  /* Main Content */
+  main {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  /* Left Side: Blog Content Editor */
+  .editor {
+    flex: 70%;
+  }
+  
+  .editor input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    border: 2px solid teal;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    color: teal;
+  }
+  
+  .editor textarea {
+    width: 100%;
+    height: 400px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid teal;
+    border-radius: 4px;
+    resize: vertical;
+  }
+  
+  /* Right Side: Blog Image and Tags */
+  .sidebar {
+    flex: 30%;
+  }
+  
+  .image-upload {
+    margin-bottom: 20px;
+  }
+  
+  .image-upload label {
+    font-weight: bold;
+    color: teal;
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .image-upload input[type="file"] {
+    display: none;
+  }
+  
+  .image-upload .upload-area {
+    border: 2px dashed teal;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .image-upload .upload-area p {
+    margin: 0;
+    color: teal;
+  }
+  
+  .tags label {
+    font-weight: bold;
+    color: teal;
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .tags input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid teal;
+    border-radius: 4px;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: teal;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  footer button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  footer .cancel-button {
+    background-color: white;
+    color: teal;
+  }
+  
+  footer .publish-button {
+    background-color: teal;
+    color: white;
+    border: 2px solid white;
+  }

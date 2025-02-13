@@ -1,0 +1,133 @@
+{% extends "../base.html" %}
+
+{% block content %}
+
+
+<div class="row tm-row">
+
+    <div class="col-12">
+
+        <hr class="tm-hr-primary tm-mb-55">
+
+        {% if is_in_user_blogs %}
+        <a
+            href = {% url "edit_blog" blog.id %}
+            style="cursor: pointer;"
+            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Edit</a>
+        <a
+            href = {% url "delete_blog" blog.id %}
+            style="cursor: pointer;"
+            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-green-700 dark:focus:ring-red-800">Delete</a>
+            <br>
+            <br>
+            <br>
+            {% endif %}
+        
+        <img  src="{{blog.blog_img.url}}" alt="img" width="800" height="800" class="tm-mb-40">
+
+
+    </div>
+</div>
+<div class="row tm-row">
+    <div class="col-lg-8 tm-post-col">
+        <div class="tm-post-full">
+            <div class="mb-4">
+                <h2 class="pt-2 tm-color-primary tm-post-title">{{blog.title|title}}</h2>
+                <p class="tm-mb-40">{{blog.created_at}} posted by {{blog.created_by}}</p>
+                <p>
+                    {{blog.content}}
+                </p>
+                {% comment %} <p>
+                    Duis pretium efficitur nunc. Mauris vehicula nibh nisi. Curabitur gravida neque
+                    dignissim, aliquet nulla sed, condimentum nulla. Pellentesque id venenatis
+                    quam, id cursus velit. Fusce semper tortor ac metus iaculis varius. Praesent
+                    aliquam ex vel lectus ornare tristique. Nunc et eros quis enim feugiat tincidunt
+                    et vitae dui.
+                </p> {% endcomment %}
+                {% for tag in blog.tags.all %}
+                <span class="d-block text-right tm-color-primary">{{tag.name}}</span>
+                {% endfor %}
+            </div>
+
+            <!-- Comments -->
+            <div>
+                <h2 class="tm-color-primary tm-post-title">Comments {{blog.no_of_comments}}</h2>
+                <hr class="tm-hr-primary tm-mb-45">
+                {% for comment in comments %}
+                {% if comment.active %}
+
+                <div class="tm-comment tm-mb-45">
+                    <figure class="tm-comment-figure">
+                        <img src="img/comment-1.jpg" alt="Image" class="mb-2 rounded-circle img-thumbnail">
+                        <figcaption class="tm-color-primary text-center">{{comment.username}}</figcaption>
+                    </figure>
+                    <div>
+                        <p>
+                            {{comment.text}}
+                        </p>
+                        <div class="d-flex justify-content-between">
+
+                            <form action="{% url "delete_comment" %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="comment" value="{{comment.id}}">
+                                <button type="submit">Delete</button>
+                            </form>
+
+
+                            <span class="tm-color-primary">{{comment.created_at}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {% endif %}
+
+
+                {% endfor %}
+
+                <form action="{% url "create_comment" blog.id %}" method="POST" class="mb-5 tm-comment-form">
+                    {% csrf_token %}
+                    <h2 class="tm-color-primary tm-post-title mb-4">Your comment</h2>
+                    <div class="mb-4">
+                        <input required class="form-control" name="comment" type="text" placeholder="comment.....">
+                    </div>
+                    <div class="text-right">
+                        <button class="tm-btn tm-btn-primary tm-btn-small">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <aside class="col-lg-4 tm-aside-col">
+        <div class="tm-post-sidebar">
+            <hr class="mb-3 tm-hr-primary">
+            <h2 class="mb-4 tm-post-title tm-color-primary">Categories</h2>
+            <ul class="tm-mb-75 pl-5 tm-category-list">
+                {% for tag in tags %}
+
+                <li><a href="{% url "cat_blog" tag.slug %}" class="tm-color-primary">{{tag.name}}</a></li>
+                {% endfor %}
+
+            </ul>
+            <hr class="mb-3 tm-hr-primary">
+            <h2 class="tm-mb-40 tm-post-title tm-color-primary">Related Posts</h2>
+            {% for r_blog in blog.get_r_blogs  %}
+            {% if r_blog.id != blog.id %}
+
+            <a href="{% url "blog_details" r_blog.id %}" class="d-block tm-mb-40">
+                <figure>
+                    <img src="{{r_blog.blog_img.url}}" alt="Image" class="mb-3 img-fluid">
+                    <figcaption class="tm-color-primary">{{blog.title}}</figcaption>
+                </figure>
+            </a>
+            {% endif %}
+
+
+            {% endfor %}
+
+        </div>
+    </aside>
+</div>
+
+
+
+{% endblock content %}

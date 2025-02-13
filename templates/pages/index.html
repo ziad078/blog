@@ -1,0 +1,82 @@
+{% extends "../base.html" %} {% load static %} {% block content %}
+
+<div class="row tm-row">
+  {% for blog in all_blogs %}
+  <article class="col-12 col-md-6 tm-post">
+    <hr class="tm-hr-primary" />
+    <a
+      href="{{blog.get_absolute_url}}"
+      class="effect-lily tm-post-link tm-pt-60"
+    >
+      <div class="tm-post-link-inner">
+        <img src="{{blog.blog_img.url}}" alt="Image" class="img-fluid" />
+      </div>
+      {% if forloop.counter == 1 or forloop.counter == 2 %}
+      <span class="position-absolute tm-new-badge">New</span>
+      {% endif %}
+      <h2 class="tm-pt-30 tm-color-primary tm-post-title">
+        {{blog.title|title}}
+      </h2>
+    </a>
+    <p class="tm-pt-30">{{blog.content}}</p>
+    <div class="d-flex justify-content-between tm-pt-45">
+      <span class="tm-color-primary">{{blog.tags.all.name}}</span>
+      <span class="tm-color-primary">{{blog.created_at}}</span>
+    </div>
+    <hr />
+    <div class="d-flex justify-content-between">
+      <span>{{blog.no_of_comments}} comment(s)</span>
+      <span>by {{blog.created_by}}</span>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+
+<div class="row tm-row tm-mt-100 tm-mb-75">
+  <div class="tm-prev-next-wrapper">
+    {% if all_blogs.has_previous %}
+      <a
+        href="?page={{ all_blogs.previous_page_number }}"
+        class="mb-2 tm-btn tm-btn-primary tm-prev-next tm-mr-20"
+        >Prev</a
+      >
+      {% else %}
+        <a class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled tm-mr-20"
+        >Prev</a
+      >
+    {% endif %} 
+    {% if all_blogs.has_next %}
+      <a
+        href="?page={{ all_blogs.next_page_number }}"
+        class="mb-2 tm-btn tm-btn-primary tm-prev-next"
+        >Next</a
+      >
+      {% else %}
+        <a class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled">Next</a>
+    {% endif %}
+  </div>
+  <div class="tm-paging-wrapper">
+    <span class="d-inline-block mr-3">Page</span>
+    <nav class="tm-paging-nav d-inline-block">
+      <ul>
+        {% for num in all_blogs.paginator.page_range %}
+          {% if all_blogs.number == num %}
+          <li class="tm-paging-item active">
+            <a href="?page={{ num }}" class="mb-2 tm-btn tm-paging-link"
+              >{{ num }}</a
+            >
+          </li>
+          {% else %}
+          <li class="tm-paging-item">
+            <a href="?page={{ num }}" class="mb-2 tm-btn tm-paging-link"
+              >{{ num }}</a
+            >
+          </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</div>
+
+{% endblock content %}

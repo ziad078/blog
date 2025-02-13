@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Blog Post</title>
+    <link rel="stylesheet" href="{% static "css/edit.css" %}">
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">My Blog</div>
+        <h1>Edit Blog Post</h1>
+      </header>
+
+      <!-- Main Content -->
+      <main>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <!-- Left Side: Blog Content Editor -->
+          <div class="editor">
+            <!-- Title Input -->
+            <input
+              type="text"
+              name="title"
+              id="title"
+              placeholder="Enter Blog Title"
+              value="{{ title }}"
+              required
+            />
+
+            <!-- Content Editor -->
+            <textarea
+              name="content"
+              id="content"
+              placeholder="Write your blog content here..."
+              required
+            >
+{{ content }}</textarea
+            >
+          </div>
+
+          <!-- Right Side: Blog Image and Tags -->
+          <div class="sidebar">
+            <!-- Blog Image Upload -->
+            <div class="image-upload">
+              <input type="file" name="img" id="blog_img" required />
+              <div
+                class="upload-area"
+                style="box-sizing: border-box; padding: 0"
+              >
+                <label
+                  style="
+                    background-color: teal;
+                    color: white;
+                    width: 100%;
+                    heigh: 100%;
+                    box-sizing: border-box;
+                    padding: 20px;
+                    margin: 0;
+                    cursor: pointer;
+                  "
+                  for="blog_img"
+                  >Upload Blog Image
+                  <p style="color: white">
+                    Drag and drop or click to upload
+                  </p></label
+                >
+              </div>
+            </div>
+
+            <!-- Tags Input -->
+            <div class="tags">
+              <label for="tags">Tags</label>
+              <input
+                type="text"
+                name="tags"
+                id="tags"
+                placeholder="Add tags (comma separated)"
+                value="{{ tags }}"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <footer>
+            <a
+              href="{% if id %}{% url 'blog_details' id %}{% else %}{% url 'index' %}{% endif %}"
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100px;
+                color: #000;
+                text-decoration: none;
+              "
+              class="cancel-button"
+              >Cancel</a
+            >
+            <button type="submit" class="publish-button">Publish</button>
+          </footer>
+        </form>
+      </main>
+    </div>
+  </body>
+</html>
