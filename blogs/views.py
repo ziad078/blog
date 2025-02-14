@@ -21,11 +21,12 @@ def index(req):
 @login_required(login_url="login")
 def blog_details(req, pk):
     blog = get_object_or_404(Blog, id=pk)
-    tags = Tag.objects.all()
     comments = Comment.objects.filter(blog=blog)
+    tags = Tag.objects.all()
+    
     is_in_user_blogs = False
     try:
-        blog = get_object_or_404(Blog, id=pk, created_by=req.user)
+        blog = get_object_or_404(Blog, id=pk, created_by=req.user.profile)
         is_in_user_blogs = True
     except Http404:
         is_in_user_blogs = False
@@ -51,7 +52,7 @@ def create_comment(req, id):
         text = req.POST['comment']
         comment = Comment.objects.create(
             text=text,
-            user=req.user,
+            profile=req.user.profile,
             blog=get_object_or_404(Blog, id=id)
         )
         comment.save()
@@ -68,6 +69,7 @@ def delete_comment(req):
 
 @login_required(login_url="login")
 def edit_blog(req, id=None):
+    pro = Profile.objects.get(user=req.user)
     blog_data = {
         "id": id,
         "title": "",
@@ -105,7 +107,7 @@ def edit_blog(req, id=None):
                 title=title,
                 content=content,
                 blog_img=img,
-                created_by=req.user
+                created_by= pro
             )
             blog.tags.set(tags.split(','))  # Ensure tags are split correctly and passed as a list
             blog.save()

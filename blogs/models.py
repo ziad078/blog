@@ -3,14 +3,14 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.text import slugify
 from taggit.managers import TaggableManager
- 
+from accounts.models import Profile
 # Create your models here.
 class Blog(models.Model):
     title = models.CharField(max_length = 500)
     blog_img = models.ImageField(upload_to='blog-photos/')
     content = models.TextField()
     created_at = models.DateField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
     no_of_comments = models.PositiveSmallIntegerField(default=0)
     slug = models.SlugField(unique=True, blank=True)  # Add slug field
     tags = TaggableManager()
@@ -31,7 +31,7 @@ class Blog(models.Model):
     def __str__(self):
         return self.title
 class Comment(models.Model):
-    user = models.ForeignKey(User,related_name='user_comments',on_delete=models.SET_NULL,null=True)
+    profile = models.ForeignKey(Profile,related_name='user_comments',on_delete=models.SET_NULL,null=True)
     blog = models.ForeignKey(Blog,on_delete=models.CASCADE,related_name="comments")
     created_at = models.DateTimeField(auto_now_add=True)
     text = models.TextField()

@@ -14,7 +14,7 @@ from pathlib import Path
 LOGIN_URL = '/signin/'
 LOGIN_REDIRECT_URL = '/'
 
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -60,7 +60,7 @@ ROOT_URLCONF = 'blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["templates"],
+        'DIRS': [BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,7 +127,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = BASE_DIR/'static'
 
-MEDIA_ROOT = BASE_DIR/"static/media"
+MEDIA_ROOT = BASE_DIR/"media"
 MEDIA_URL = '/media/'
 
 
